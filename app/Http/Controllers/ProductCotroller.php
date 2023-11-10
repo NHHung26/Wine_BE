@@ -8,16 +8,23 @@ use Illuminate\Http\Request;
 class ProductCotroller extends Controller
 {
     function getData(){
-        return Products::all();
+        $products =  Products::all();
+        return response()->json($products)
+        ->header('Access-Control-Allow-Origin', 'http://localhost:3000')
+        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    }
+
+    public function show($id)
+    {
+        $product = Products::find($id);
+        return response()->json($product)
+        ->header('Access-Control-Allow-Origin', 'http://localhost:3000')
+        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     }
     
     function add(Request $request){
         
-    
-
         $path = $request->file('file')->store('public');
-    
-
         $url = asset(str_replace('public', 'storage', $path));
         $product = new Products;
         $product->name_product = $request->name_product;

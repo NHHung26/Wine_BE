@@ -26,6 +26,7 @@ Route::delete('/delete-cart/{id}', [CartController::class,'delete']);
 Route::put('/update-cart/{id}', [CartController::class,'update']);
 
 Route::get('/product', [ProductCotroller::class,'getData']);
+Route::get('/product/{id}', [ProductCotroller::class,'show']);
 Route::post('/add-product', [ProductCotroller::class,'add']);
 Route::delete('/delete-product/{id}', [ProductCotroller::class,'delete']);
 Route::put('/update-product/{id}', [ProductCotroller::class,'update']);

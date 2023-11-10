@@ -28,6 +28,7 @@
         <input type="text" name="mo_ta">
 
         <label for="file8">File 8:</label>
+   
         <input type="file" name="file">
 
         <button type="submit">Tải lên</button>

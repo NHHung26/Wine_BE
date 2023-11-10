@@ -20,16 +20,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/cart', [CartController::class,'getData']);
-Route::post('/add-cart', [CartController::class,'addCart']);
-Route::delete('/delete-cart/{id}', [CartController::class,'delete']);
-Route::put('/update-cart/{id}', [CartController::class,'update']);
+Route::get('/cart', [CartController::class, 'getData']);
+Route::post('/add-cart', [CartController::class, 'addCart']);
+Route::delete('/delete-cart/{id}', [CartController::class, 'delete']);
+Route::put('/update-cart/{id}', [CartController::class, 'update']);
 
-Route::get('/product', [ProductCotroller::class,'getData']);
-Route::post('/add-product', [ProductCotroller::class,'add']);
-Route::delete('/delete-product/{id}', [ProductCotroller::class,'delete']);
-Route::put('/update-product/{id}', [ProductCotroller::class,'update']);
+Route::get('/product', [ProductCotroller::class, 'getData']);
+Route::post('/add-product', [ProductCotroller::class, 'add']);
+Route::delete('/delete-product/{id}', [ProductCotroller::class, 'delete']);
+Route::put('/update-product/{id}', [ProductCotroller::class, 'update']);
 
 
-Route::post('/uploadd',[Upload::class, 'index']);
-Route::view('upload','upload');
+Route::post('/uploadd', [Upload::class, 'index']);
+Route::view('upload', 'upload');

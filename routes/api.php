@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum'])->group(function () {
+    // API User
+
+
 });
+Route::post('/users/register', [UserController::class, 'register']);
+Route::put('/users/edit{id}', [UserController::class, 'editUser']);
+Route::delete('/users/delete{id}', [UserController::class, 'deleteUser']);
+Route::get('/users/{id}', [UserController::class, 'getUser']);
+
+// API User_detail với middleware
+Route::get('/user/{userId}/detail', [UserDetailController::class, 'getUserDetail']);
+Route::post('/user/{userId}/detail', [UserDetailController::class, 'addUserDetail']);
+Route::put('/user/{userId}/detail', [UserDetailController::class, 'editUserDetail']);
+Route::delete('/user/{userId}/detail', [UserDetailController::class, 'deleteUserDetail']);

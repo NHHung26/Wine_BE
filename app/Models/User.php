@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,9 +17,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
         'password',
+        'registration_date',
+        // Thêm trường role vào đây
     ];
 
     /**
@@ -39,7 +39,13 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password' => 'string',
+        'role' => 'string', // Thêm trường role vào đây
     ];
+
+    public function isAdmin()
+    {
+        // Logic to determine if the user is an admin
+        return $this->role === 'admin'; // Thay thế bằng logic thực tế của bạn
+    }
 }

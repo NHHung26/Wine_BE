@@ -17,10 +17,8 @@ class UserDetail extends Model
 
     protected $fillable = [
         'user_id',
-        'fullName',
         'phone',
         'address',
-        'email',
     ];
 
     public function user()

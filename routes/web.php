@@ -21,6 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/cart', [CartController::class, 'getData']);
 Route::post('/add-cart', [CartController::class, 'addCart']);
 Route::get('/cart-data', [CartController::class, 'getDataFromTable']);

@@ -39,7 +39,12 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ], 'api' => [
+            'driver' => 'token', // Hoặc bạn có thể sử dụng 'passport' nếu bạn sử dụng Laravel Passport
+            'provider' => 'users',
         ],
+
+
     ],
 
     /*

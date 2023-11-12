@@ -20,6 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/cart', [CartController::class, 'getData']);
 Route::post('/add-cart', [CartController::class, 'addCart']);
 Route::delete('/delete-cart/{id}', [CartController::class, 'delete']);

@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\VerifyJWTToken;
+use App\Http\Controllers\ProductCotroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,13 +22,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 });
-Route::post('/users/register', [UserController::class, 'register']);
-Route::put('/users/edit{id}', [UserController::class, 'editUser']);
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+
 Route::delete('/users/delete{id}', [UserController::class, 'deleteUser']);
-Route::get('/users/{id}', [UserController::class, 'getUser']);
+
 
 // API User_detail với middleware
 Route::get('/user/{userId}/detail', [UserDetailController::class, 'getUserDetail']);
 Route::post('/user/{userId}/detail', [UserDetailController::class, 'addUserDetail']);
 Route::put('/user/{userId}/detail', [UserDetailController::class, 'editUserDetail']);
 Route::delete('/user/{userId}/detail', [UserDetailController::class, 'deleteUserDetail']);
+
+
+Route::middleware([VerifyJWTToken::class])->group(function () {
+    Route::put('/users/edit', [UserController::class, 'editUser']);
+    Route::get('/users', [UserController::class, 'getUser']);
+});

@@ -9,4 +9,14 @@ class Products extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $fillable = [
+        'name_product',
+        'the_tich',
+        'gia',
+        'so_luong',
+        'image',
+        'nong_do',
+        'nsx',
+        'mo_ta'
+    ];
 }

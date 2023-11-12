@@ -10,9 +10,12 @@ class Cart extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'user_id',
-        'product_id',
-        'so_luong',
-        'tong_tien'
+        'user_id', 'id_product', 'number', 
     ];
+    
+   
+
+ 
 }
+
+

@@ -7,6 +7,8 @@ use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -14,11 +16,12 @@ class CartController extends Controller
         return Cart::all();
     }
 
-    function getDataFromTable(Request $request){
+    public function getDataFromTable(Request $request, $userId){
         $result = Cart::join('products', 'carts.id_product', '=', 'products.id')
-            ->select('carts.*', 'products.*',)
+            ->where('carts.user_id', $userId)
+            ->select('carts.*', 'products.*')
             ->get();
-
+    
         return response()->json($result);
     }
 
@@ -36,12 +39,31 @@ class CartController extends Controller
 
     
     
-function addCart(Request $request) {
-    $cart = new Cart;
-    $cart->user_id = $request->user_id;
-    $cart->id_product = $request->id_product;
-    $cart->number = $request->number;
-    $cart->save();
+public function addCart(Request $request)
+{
+    $user_id = $request->user_id;
+    $id_product = $request->id_product;
+    $number = $request->number;
+
+    
+    $existingCart = Cart::where('user_id', $user_id)
+        ->where('id_product', $id_product)
+        ->first();
+
+    if ($existingCart) {
+        
+        $existingCart->number += $number;
+        $existingCart->save();
+    } else {
+       
+        $cart = new Cart;
+        $cart->user_id = $user_id;
+        $cart->id_product = $id_product;
+        $cart->number = $number;
+        $cart->save();
+    }
+
+    return response()->json(['message' => 'Thêm vào giỏ hàng thành công']);
 }
 
     function delete($id){
@@ -50,11 +72,9 @@ function addCart(Request $request) {
     }
 
     public function update(Request $request){
-        // Cập nhật số lượng (number) trong bảng carts dựa trên id_product
+      
         $affectedRows = Cart::where('id_product', $request->id_product)
                             ->update(['number' => $request->number]);
-    
-        // Kiểm tra xem có bản ghi nào được cập nhật không
         if ($affectedRows > 0) {
             return response()->json(['message' => 'Cart item updated successfully']);
         } else {
@@ -68,15 +88,11 @@ function addCart(Request $request) {
     public function checkout()
     {
         try {
-         
-
             $cartItems = Cart::all();
             Cart::truncate();
-
             $products = [];
             foreach ($cartItems as $cartItem) {
                 $product = Products::find($cartItem->id_product);
-
                 if ($product) {
                     $product->update([
                         'so_luong' => $product->so_luong - $cartItem->number
@@ -88,23 +104,25 @@ function addCart(Request $request) {
                         'price' => $product->gia,
                     ];
                 } else {
-                    // Handle the case where a product is not found
+           
+                }
+            }
+         
+            foreach ($cartItems as $cartItem) {
+                $user = User::find($cartItem->user_id);
+                if ($user) {
+                    $userEmail = $user->email;
+                    Mail::to($userEmail)->send(new OrderShipped($products));
+                   
+            return response()->json(['message' => 'Đặt hàng thành công']);
+                } else {
            
                 }
             }
 
-            $userEmail = 'huyhungbodoi123@gmail.com';
-            Mail::to($userEmail)->send(new OrderShipped($products));
-
             
-
-            return response()->json(['message' => 'Đặt hàng thành công']);
         } catch (\Exception $e) {
-            
-
-            // Log the full exception details for debugging
-           
-
+        
             return response()->json(['message' => 'Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại sau.'], 500);
         }
     }

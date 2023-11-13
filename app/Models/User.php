@@ -21,6 +21,9 @@ class User extends Authenticatable implements JWTSubject
         'username',
         'password',
         'registration_date',
+        'fullname',
+        'email',
+        'role'
         // Thêm trường role vào đây
     ];
 

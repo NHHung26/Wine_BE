@@ -28,7 +28,7 @@ Route::get('/cart-data', [CartController::class, 'getDataFromTable']);
 Route::delete('/cart-data/{id}', [CartController::class, 'deleteCartItem']);
 Route::delete('/delete-cart/{id}', [CartController::class, 'delete']);
 Route::put('/update-cart/{id_product}', [CartController::class, 'update']);
-Route::get('/all-cart', [CartController::class, 'getDataFromTable']);
+Route::get('/all-cart/{user_id}', [CartController::class, 'getDataFromTable']);
 
 Route::get('/product', [ProductCotroller::class,'getData']);
 Route::get('/product/{id}', [ProductCotroller::class,'show']);
